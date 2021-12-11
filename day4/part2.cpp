@@ -3,7 +3,7 @@
 #include<string>
 #include<vector>
 #include<algorithm>
-#include<map>
+#include<unordered_map>
 
 using namespace std;
 
@@ -69,9 +69,9 @@ int main(){
         }
     }
 
-    int z;int board_id;
-    std::map<int,int> lb;
-    int last_insert;
+    int z;
+    int board_id;
+    unordered_map<int,bool> board_won;
     for(z=0;z<numbers.size();z++){
         for(board_id=0;board_id<boards.size();board_id++){
             for(int y=0;y<5;y++){
@@ -82,22 +82,22 @@ int main(){
                         printf("HEY: number: %i, number val: %i, board: %i, y: %i, x: %i, val: %i\n", z, numbers[z], board_id, y, x, boards[board_id][y][x]);
                     
                         bool win = mark(boards[board_id],x,y);
-                        if(win && lb.find(board_id) != lb.end()) {
+                        if(win && board_won.find(board_id) == board_won.end()) {
                             printf("we have a winner: %i\n",board_id);
-                            last_insert = board_id;
-                            lb[board_id] = z;
+
+                            board_won[board_id] = true;
+
+                            if(board_won.size() == boards.size()) goto winner;
                         }
                     }
                 }
             }
         }
+        
     }
     board_id--;
     z--;
 winner:
-    z = lb.find(last_insert)->second;
-    board_id = lb.find(last_insert)->first;
-
     printf("END: number: %i, number val: %i, board: %i\n", z, numbers[z], board_id);
 
     unsigned long long sum = 0;
@@ -107,8 +107,8 @@ winner:
         }
     }
     unsigned long long answer = sum*numbers[z];
-    printf("sum: %llu, answer: %llu\n", sum, answer);
+    printf("answer: %llu\n", answer);
     //printf("biggest ull: %llu\n", 18446744073709551615ull);
 
-	return 0;
+    return 0;
 }

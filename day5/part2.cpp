@@ -56,14 +56,12 @@ int main(){
 
     vector<Line> ortholines;
     for(int i=0; i<arr.size(); i+=4){
-        if(arr[i] == arr[i+2] || arr[i+1] == arr[i+3]) {
-             ortholines.push_back({
-                arr[i],
-                arr[i+1],
-                arr[i+2],
-                arr[i+3]
-            });
-        }
+        ortholines.push_back({
+            arr[i],
+            arr[i+1],
+            arr[i+2],
+            arr[i+3]
+        });
     }
 
     vector<vector<int>> canvas(1000, vector<int>(1000, 0));
